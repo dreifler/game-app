@@ -1,0 +1,10 @@
+{
+  "auth": {
+    "gameappf1b8f66d": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}
