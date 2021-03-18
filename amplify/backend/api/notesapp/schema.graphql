@@ -1,5 +1,5 @@
-type Note @model {
+type Fighter @model {
   id: ID!
+  username: String!
   name: String!
-  description: String
 }

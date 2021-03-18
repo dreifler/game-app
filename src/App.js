@@ -13,7 +13,7 @@ function App() {
   const [user, setUser] = useState("");
 
   useEffect(() => {
-    fetchNotes();
+    fetchFighters();
     Auth.currentSession()
         .then(data => {
             Auth.currentSession().then((user) => {
@@ -23,22 +23,22 @@ function App() {
         .catch(err => console.log(err));
   }, []);
 
-  async function fetchNotes() {
-    const apiData = await API.graphql({ query: listNotes });
-    setNotes(apiData.data.listNotes.items);
+  async function fetchFighters() {
+    const apiData = await API.graphql({ query: listFighters });
+    setFighters(apiData.data.listFighters.items);
   }
 
-  async function createNote() {
+  async function createFighter() {
     if (!formData.name || !formData.description) return;
-    await API.graphql({ query: createNoteMutation, variables: { input: formData } });
-    setNotes([ ...notes, formData ]);
+    await API.graphql({ query: createFighterMutation, variables: { input: formData } });
+    setNotes([ ...fighters, formData ]);
     setFormData(initialFormState);
   }
 
-  async function deleteNote({ id }) {
-    const newNotesArray = notes.filter(note => note.id !== id);
-    setNotes(newNotesArray);
-    await API.graphql({ query: deleteNoteMutation, variables: { input: { id } }});
+  async function deleteFighter({ id }) {
+    const newFightersArray = notes.filter(fighter => fighter.id !== id);
+    setNotes(newFightersArray);
+    await API.graphql({ query: deleteFighterMutation, variables: { input: { id } }});
   }
 
   return (
@@ -46,22 +46,17 @@ function App() {
       <h1>{user}&apos;s Gym</h1>
       <input
         onChange={e => setFormData({ ...formData, 'name': e.target.value})}
-        placeholder="Note name"
+        placeholder="Fighter Name"
         value={formData.name}
       />
-      <input
-        onChange={e => setFormData({ ...formData, 'description': e.target.value})}
-        placeholder="Note description"
-        value={formData.description}
-      />
-      <button onClick={createNote}>Create Note</button>
+      <button onClick={createFighter}>Create Fighter</button>
+
       <div style={{marginBottom: 30}}>
         {
           notes.map(note => (
-            <div key={note.id || note.name}>
-              <h2>{note.name}</h2>
-              <p>{note.description}</p>
-              <button onClick={() => deleteNote(note)}>Delete note</button>
+            <div key={fighter.id || fighter.name}>
+              <h2>{fighter.name}</h2>
+              <button onClick={() => deleteFighter(fighter)}>Delete </button>
             </div>
           ))
         }
